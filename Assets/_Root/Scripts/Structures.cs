@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 
 public class Structures
 {
@@ -21,5 +23,11 @@ public class Structures
         public string stateName;
         public string stateDescription;
         public List<ActionWithCat> stateActions;
+    }
+    
+    public struct InputButton
+    {
+        public Button button;
+        public TMP_Text Text;
     }
 }

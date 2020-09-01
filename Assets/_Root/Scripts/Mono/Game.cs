@@ -4,7 +4,7 @@ public class Game : MonoBehaviour
 {
     [SerializeField] private int defaultCateState = 0;
     [SerializeField] private GameObject uiLogic = null;
-    [SerializeField] private GameObject databaseAcсess = null;
+    [SerializeField] private GameObject databaseAccess = null;
     
     private IUiLogic _uiLogic;
     private CatBehavior _catBehavior;
@@ -27,7 +27,7 @@ public class Game : MonoBehaviour
             Debug.LogError($"UiLogic does not exist!");
         }
         
-        if (databaseAcсess == null)
+        if (databaseAccess == null)
         {
             value = true;
             Debug.LogError($"DatabaseAccess does not exist!");
@@ -38,7 +38,7 @@ public class Game : MonoBehaviour
 
     private void SetupGame()
     {
-        IDatabaseAccess newDatabaseAccess = databaseAcсess.GetComponent<IDatabaseAccess>();
+        IDatabaseAccess newDatabaseAccess = databaseAccess.GetComponent<IDatabaseAccess>();
 
         _catBehavior = new CatBehavior(defaultCateState, newDatabaseAccess);
         
@@ -68,13 +68,13 @@ public class Game : MonoBehaviour
         if (uiLogic && uiLogic.GetComponent<IUiLogic>() == null)
         {
             uiLogic = null;
-            Debug.LogError($"Cant find UiLogic interface!");
+            Debug.LogWarning($"Cant find UiLogic interface!");
         }
 
-        if (databaseAcсess && databaseAcсess.GetComponent<IDatabaseAccess>() == null)
+        if (databaseAccess && databaseAccess.GetComponent<IDatabaseAccess>() == null)
         {
-            databaseAcсess = null;
-            Debug.LogError($"Cant find DatabaseAccess interface!");
+            databaseAccess = null;
+            Debug.LogWarning($"Cant find DatabaseAccess interface!");
         }
     }
 }

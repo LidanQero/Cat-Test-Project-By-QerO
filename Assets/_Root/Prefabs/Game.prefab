@@ -45,4 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultCateState: 2
   uiLogic: {fileID: 0}
-  "databaseAc\u0441ess": {fileID: 0}
+  databaseAccess: {fileID: 0}

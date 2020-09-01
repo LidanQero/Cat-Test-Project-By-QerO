@@ -4,6 +4,7 @@ public class Enums
     {
         StateNoChange,
         StateUp,
+        StateDoubleUp,
         StateDown,
         StateDoubleDown
     }

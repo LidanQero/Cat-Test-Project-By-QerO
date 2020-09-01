@@ -5,11 +5,11 @@ using UnityEngine;
 public class CatBehavior
 {
     private int _currentIdOfCatState;
-    private IDatabaseAccess _databaseAccess;
+    private readonly IDatabaseAccess _databaseAccess;
 
     private Structures.CatState _currentCatState;
     private Structures.CatReaction _currentCatReaction;
-    private List<Structures.ActionWithCat> _currentActions = new List<Structures.ActionWithCat>();
+    private List<Structures.ActionWithCat> _currentActions;
 
     public CatBehavior(int catStateId, IDatabaseAccess newDatabaseAccess)
     {
@@ -22,20 +22,47 @@ public class CatBehavior
 
     public void ActionWithCat(int actionId)
     {
-        Structures.ActionWithCat actionWithCat = TrySetNewCurrentAction(actionId);
+        SetActualCatReaction(actionId);
+        ChangeCatState(actionId);
+        ChangeCatActions();
+    }
 
+    private void SetActualCatReaction(int actionId)
+    {
         _currentCatReaction = _databaseAccess.GetCurrentCatReaction(_currentIdOfCatState, actionId);
+    }
+
+    private void ChangeCatState(int actionId)
+    {
+        Structures.ActionWithCat actionWithCat = TrySetNewCurrentAction(actionId);
         
-        if (actionWithCat.resultOfactionWithCat == Enums.ResultOfActionWithCat.StateUp)
-            _currentIdOfCatState++;
-        else if (actionWithCat.resultOfactionWithCat == Enums.ResultOfActionWithCat.StateDown)
-            _currentIdOfCatState--;
-        else if (actionWithCat.resultOfactionWithCat == Enums.ResultOfActionWithCat.StateDoubleDown)
-            _currentIdOfCatState -= 2;
+        switch (actionWithCat.resultOfactionWithCat)
+        {
+            case  Enums.ResultOfActionWithCat.StateUp:
+                _currentIdOfCatState += 1;
+                break;
+            case  Enums.ResultOfActionWithCat.StateDoubleUp:
+                _currentIdOfCatState += 2;
+                break;
+            case  Enums.ResultOfActionWithCat.StateDown:
+                _currentIdOfCatState -=1;
+                break;
+            case  Enums.ResultOfActionWithCat.StateDoubleDown:
+                _currentIdOfCatState -= 2;
+                break;
+            case Enums.ResultOfActionWithCat.StateNoChange:
+                break;
+            default:
+                Debug.LogError("Missing action result type!");
+                break;
+        }
         
         _currentIdOfCatState = TestCatState(_currentIdOfCatState);
         _currentCatState = _databaseAccess.GetCatState(_currentIdOfCatState);
-        
+    }
+
+    private void ChangeCatActions()
+    {
         _currentActions = _databaseAccess.GetCatActions(_currentIdOfCatState);
     }
 
@@ -57,8 +84,9 @@ public class CatBehavior
         if (testValue < 0)
             return 0;
 
-        if (testValue > _databaseAccess.GetStatesCount() - 1)
-            return _databaseAccess.GetStatesCount() - 1;
+        int statesCount = _databaseAccess.GetStatesCount() - 1;
+        if (testValue > statesCount)
+            return statesCount;
 
         return testValue;
     }

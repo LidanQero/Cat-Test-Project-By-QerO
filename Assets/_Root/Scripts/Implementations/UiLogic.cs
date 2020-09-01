@@ -9,7 +9,7 @@ public class UiLogic : MonoBehaviour, IUiLogic
     [SerializeField] private TMP_Text outputText = null;
     [SerializeField] private Slider catStateSlider = null;
 
-    private List<InputButton> _inputButtons = new List<InputButton>();
+    private List<Structures.InputButton> _inputButtons = new List<Structures.InputButton>();
     private bool _waitReactionEnd;
 
     public void InitUi()
@@ -22,7 +22,7 @@ public class UiLogic : MonoBehaviour, IUiLogic
 
         for (int i = 0; i < buttons.Count; i++)
         {
-            _inputButtons.Add(new InputButton
+            _inputButtons.Add(new Structures.InputButton
             {
                 button = buttons[i], Text = buttons[i].GetComponentInChildren<TMP_Text>()
             });
@@ -60,9 +60,6 @@ public class UiLogic : MonoBehaviour, IUiLogic
         outputText.text = catReaction.reactionDescription;
 
         HideAllButtons();
-        
-        if (_inputButtons[0] == null)
-            return;
         
         _inputButtons[0].button.gameObject.SetActive(true);
         _inputButtons[0].Text.text = "Далее";

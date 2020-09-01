@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Loading : MonoBehaviour
 { 
-    void Start()
+    private void Start()
     {
         SceneManager.LoadSceneAsync(1);
     }

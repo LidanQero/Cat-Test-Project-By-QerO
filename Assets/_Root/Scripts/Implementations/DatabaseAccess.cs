@@ -56,22 +56,22 @@ public class DatabaseAccess : MonoBehaviour, IDatabaseAccess
 
     private Structures.ActionWithCat ScriptableObjectActionToStructAction(ActionWithCat actionWithCat)
     {
-        Structures.ActionWithCat newAction;
-        newAction.actionName = actionWithCat.systemName;
-        newAction.actionDescription = actionWithCat.uiText;
-        newAction.resultOfactionWithCat = actionWithCat.resultForState;
-        newAction.catReaction = ScriptableObjectReactionToStructReaction(actionWithCat.catReaction);
-
-        return newAction;
+        return new Structures.ActionWithCat
+        {
+            actionName =  actionWithCat.systemName,
+            actionDescription = actionWithCat.uiText,
+            resultOfactionWithCat = actionWithCat.resultForState,
+            catReaction = ScriptableObjectReactionToStructReaction(actionWithCat.catReaction)
+        };
     }
 
     private Structures.CatReaction ScriptableObjectReactionToStructReaction(CatReaction catReaction)
     {
-        Structures.CatReaction newReaction;
-        newReaction.reactionName = catReaction.systemName;
-        newReaction.reactionDescription = catReaction.uiText;
-
-        return newReaction;
+        return new Structures.CatReaction
+        {
+            reactionName = catReaction.systemName,
+            reactionDescription = catReaction.uiText
+        };
     }
 
     private Structures.CatState ScriptableObjectStateToStructState(CatState catState)
@@ -83,11 +83,9 @@ public class DatabaseAccess : MonoBehaviour, IDatabaseAccess
             newActions.Add(ScriptableObjectActionToStructAction(action));
         }
 
-        Structures.CatState newState = new Structures.CatState
+        return new Structures.CatState
         {
-            stateName = catState.systemName, stateDescription = catState.uiText, stateActions = newActions
+            stateDescription = catState.uiText, stateActions = newActions
         };
-
-        return newState;
     }
 }
